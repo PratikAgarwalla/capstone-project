@@ -20,10 +20,9 @@ const SignIn = () => {
       setMessage({ text: "Login Successful! Redirecting...", type: "success" });
 
       setTimeout(() => {
-        navigate("/dashboard"); // Redirect to LearnIt.com dashboard
+        navigate("/dashboard");
       }, 1500);
     } catch (err) {
-      console.log(err);
       setMessage({
         text: err.response?.data?.message || "Login failed",
         type: "danger",
@@ -32,25 +31,23 @@ const SignIn = () => {
   };
 
   return (
-    <div
-      className="d-flex justify-content-center align-items-center vh-100"
-      style={{ background: "linear-gradient(135deg, #74ebd5, #acb6e5)" }}
-    >
+    <div className="d-flex justify-content-center align-items-center vh-100">
       <div
         className="card p-4 shadow-lg"
-        style={{ width: "400px", background: "#fff", borderRadius: "10px" }}
+        style={{ width: "400px", background: "#fff", borderRadius: "15px" }}
       >
-        <h3 className="text-center text-primary">
-          Welcome to LearnIt.com - Please Login
-        </h3>
+        <div className="text-center">
+          <img src="./icon.png" alt="LearnIt Logo" style={{ width: "60px" }} />
+        </div>
+        <h3 className="text-center text-dark mt-3">Login to Learnit.com</h3>
         {message.text && (
           <div className={`alert alert-${message.type} mt-2`}>
             {message.text}
           </div>
         )}
-        <form onSubmit={handleLogin}>
+        <form onSubmit={handleLogin} className="mt-3">
           <div className="mb-3">
-            <label>Email</label>
+            <label className="fw-bold mb-1">Email</label>
             <input
               type="email"
               className="form-control"
@@ -60,7 +57,7 @@ const SignIn = () => {
             />
           </div>
           <div className="mb-3">
-            <label>Password</label>
+            <label className="fw-bold mb-1">Password</label>
             <input
               type="password"
               className="form-control"
@@ -69,12 +66,15 @@ const SignIn = () => {
               required
             />
           </div>
-          <button type="submit" className="btn btn-primary w-100">
+          <button type="submit" className="btn btn-primary w-100 fw-bold">
             Login
           </button>
         </form>
         <p className="mt-3 text-center">
-          Don't have an account? <a href="/signup">Sign up</a>
+          Don't have an account?{" "}
+          <a href="/signup" className="fw-bold">
+            Sign up
+          </a>
         </p>
       </div>
     </div>

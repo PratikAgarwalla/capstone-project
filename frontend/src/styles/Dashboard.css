@@ -1,109 +1,159 @@
-/* .dashboard-container {
-    display: flex;
-    height: 100vh;
-  }
-  
-  .sidebar {
-    width: 250px;
-    background: #2c3e50;
-    color: white;
-    padding: 20px;
-  }
-  
-  .sidebar h2 {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .sidebar ul {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .sidebar li {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px;
-    cursor: pointer;
-  }
-  
-  .sidebar li:hover {
-    background: #34495e;
-  }
-  
-  .dashboard-content {
-    flex: 1;
-    padding: 20px;
-  }
-   */
-
-
-   /* Dashboard Layout */
+/* Dashboard Full Screen Layout */
 .dashboard-container {
   display: flex;
   height: 100vh;
-  background-color: #f4f4f4;
+  background: #f4f4f4;
+  color: #333;
+  padding: 0;
+  margin: 0;
 }
 
-/* Sidebar */
+/* Sidebar Styling */
 .sidebar {
-  width: 250px;
-  background: #1a1a2e;
-  color: white;
+  width: 260px;
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  color: #fff;
   padding: 20px;
   display: flex;
   flex-direction: column;
-  height: 100%;
+  justify-content: flex-start;
+  gap: 30px;
+  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.2);
+  border-radius: 0 15px 15px 0;
 }
 
+/* Dashboard Title & Icon */
 .sidebar h2 {
   font-size: 22px;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: bold;
   margin-bottom: 20px;
 }
+.sidebar h2 svg {
+  font-size: 26px;
+  color: #ffeb3b;
+}
 
-.sidebar ul {
+/* User Info */
+.user-info {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 10px;
+  border-radius: 10px;
+  gap: 12px;
+  margin-bottom: 15px;
+}
+.user-info .user-icon {
+  font-size: 28px;
+  color: #ffeb3b;
+}
+.user-info p {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0;
+}
+.user-info span {
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+/* Sidebar Navigation */
+nav ul {
   list-style: none;
   padding: 0;
 }
-
-.sidebar li {
+nav ul li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   padding: 12px 15px;
+  border-radius: 8px;
+  font-size: 16px;
   cursor: pointer;
-  font-size: 18px;
-  border-radius: 5px;
+  transition: background 0.3s ease;
+}
+nav ul li a {
+  color: white; /* Make text white */
+  text-decoration: none; /* Remove underline */
+  display: flex;
+  align-items: center;
+  gap: 8px;
   transition: background 0.3s ease-in-out;
 }
-
-.sidebar li:hover {
-  background: #3a3a5e;
+nav ul li:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+nav ul li a:hover {
+  text-decoration: none;
+}
+nav ul li svg {
+  font-size: 20px;
 }
 
-.sidebar .logout {
-  margin-top: auto;
-  background: #ff4d4d;
+/* Updated Home Icon */
+nav ul li svg:nth-last-of-type() {
+  fill: white;
+}
+
+/* Logout Button */
+.logout {
+  margin-top: 15px;
+  color: #ff6961;
+}
+.logout:hover {
+  background: rgba(255, 0, 0, 0.2);
+}
+
+/* Theme Toggle Button */
+.toggle-theme {
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
   color: white;
-  text-align: center;
+  padding: 8px;
+  transition: transform 0.2s ease;
 }
-
-.sidebar .logout:hover {
-  background: #cc0000;
+.toggle-theme:hover {
+  transform: scale(1.1);
 }
 
 /* Main Content */
 .dashboard-content {
-  flex-grow: 1;
+  flex: 1;
   padding: 30px;
-  background: white;
-  color: #333;
-  text-align: center;
+  overflow-y: auto;
 }
-
 .dashboard-content h1 {
-  font-size: 2.5rem;
+  font-size: 28px;
+  color: #1e3c72;
 }
 
-.dashboard-content p {
-  font-size: 1.2rem;
+/* Dashboard Sections */
+.dashboard-section {
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+.dashboard-section h2 {
+  font-size: 20px;
+  color: #1e3c72;
+  margin-bottom: 10px;
+}
+.dashboard-section button {
+  background: #1e3c72;
+  color: white;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.dashboard-section button:hover {
+  background: #2a5298;
 }

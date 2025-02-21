@@ -1,11 +1,20 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import {
+  FaTrash,
+  FaEdit,
+  FaStar,
+  FaPlus,
+  FaCheckCircle,
+  FaEye,
+} from "react-icons/fa";
 import "../styles/Courses.css";
 
 const Courses = () => {
   const [courses, setCourses] = useState([]);
   const [user, setUser] = useState(null);
+  const [showModal, setShowModal] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
@@ -16,7 +25,6 @@ const Courses = () => {
     const fetchUser = async () => {
       const token = localStorage.getItem("token");
       if (!token) return navigate("/signin");
-
       try {
         const res = await axios.get("/api/auth/me", {
           headers: { Authorization: `Bearer ${token}` },
@@ -55,6 +63,7 @@ const Courses = () => {
         }
       );
       setCourses([...courses, res.data]);
+      setShowModal(false);
       setTitle("");
       setDescription("");
       setCategory("");
@@ -64,56 +73,16 @@ const Courses = () => {
     }
   };
 
-  const handleEnroll = async (courseId) => {
-    try {
-      await axios.post(
-        `/api/courses/${courseId}/enroll`,
-        {},
-        {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        }
-      );
-      alert("Enrolled successfully");
-    } catch (err) {
-      console.error("Error enrolling in course:", err);
-      alert("Error enrolling in course");
-    }
-  };
-
   return (
     <div className="courses-container">
-      <h1>Courses</h1>
+      <h1 className="heading">Courses</h1>
       {user && user.role === "instructor" && (
-        <form onSubmit={handleCreateCourse} className="create-course-form">
-          <h2>Create a New Course</h2>
-          <input
-            type="text"
-            placeholder="Title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-          />
-          <textarea
-            placeholder="Description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            required
-          />
-          <input
-            type="text"
-            placeholder="Category"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            required
-          />
-          <input
-            type="text"
-            placeholder="Content URL"
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-          />
-          <button type="submit">Create Course</button>
-        </form>
+        <button
+          className="create-course-btn"
+          onClick={() => setShowModal(true)}
+        >
+          <FaPlus /> Create Course
+        </button>
       )}
       <div className="courses-list">
         {courses.length > 0 ? (
@@ -121,17 +90,94 @@ const Courses = () => {
             <div key={course._id} className="course-card">
               <h2>{course.title}</h2>
               <p>{course.description}</p>
-              <p>Category: {course.category}</p>
-              <p>Instructor: {course.instructorName}</p>
-              {user && user.role === "student" && (
-                <button onClick={() => handleEnroll(course._id)}>Enroll</button>
-              )}
+              <p className="category">Category: {course.category}</p>
+              <p className="instructor">Instructor: {course.instructorName}</p>
+              <div className="course-actions">
+                {user && user.role === "instructor" ? (
+                  <>
+                    <FaEdit className="icon edit" title="Edit Course" />
+                    <FaTrash className="icon delete" title="Delete Course" />
+                    <FaEye className="icon preview" title="Preview Course" />
+                  </>
+                ) : (
+                  <>
+                    <FaEye className="icon preview" title="Preview Course" />
+                    <FaCheckCircle
+                      className="icon enroll"
+                      title="Enroll in Course"
+                    />
+                  </>
+                )}
+              </div>
             </div>
           ))
         ) : (
-          <p>No courses available. Please check back later.</p>
+          <p className="no-courses">
+            No courses available. Please check back later.
+          </p>
         )}
       </div>
+
+      {/* Modal for Creating Course */}
+      {showModal && (
+        <div className="modal-overlay">
+          <div className="modalx">
+            <h2>Create a New Course</h2>
+            <form onSubmit={handleCreateCourse}>
+              <label className="modal-form-label">
+                Title <span className="required">*</span>
+              </label>
+              <input
+                type="text"
+                placeholder="Enter course title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                required
+              />
+
+              <label className="modal-form-label">
+                Description <span className="required">*</span>
+              </label>
+              <textarea
+                placeholder="Enter course description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                required
+              />
+
+              <label className="modal-form-label">
+                Category <span className="required">*</span>
+              </label>
+              <input
+                type="text"
+                placeholder="Enter course category"
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                required
+              />
+
+              <label className="modal-form-label">Content URL</label>
+              <input
+                type="text"
+                placeholder="Enter content URL (optional)"
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+              />
+
+              <button type="submit" className="modal-btn create">
+                Create
+              </button>
+              <button
+                type="button"
+                className="modal-btn cancel"
+                onClick={() => setShowModal(false)}
+              >
+                Cancel
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
